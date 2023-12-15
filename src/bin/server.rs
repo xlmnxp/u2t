@@ -11,7 +11,9 @@ fn main() {
     
     let tcp_stream = tcp_listener.accept().unwrap().0;
     let mut udp_buf = [0; 50];
+    let mut tcp_buf = [0; 50];
 
+    println!("Got a connection! from {}", tcp_stream.peer_addr().unwrap());
     // connect pipe of udp_socket to tcp_stream
     let _udp_socket = udp_socket.try_clone().unwrap();
     let mut _tcp_stream = tcp_stream.try_clone().unwrap();
@@ -30,7 +32,6 @@ fn main() {
     let mut _tcp_stream: std::net::TcpStream = tcp_stream.try_clone().unwrap();
     thread::spawn(move || {
         loop {
-            let mut tcp_buf = [0; 50];
             let tcp_size = _tcp_stream.read(&mut tcp_buf).unwrap();
             if tcp_size > 0 {
                 println!("Got {} bytes from TCP", tcp_size);

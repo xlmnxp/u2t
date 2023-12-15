@@ -3,9 +3,9 @@ use std::io::{Read, Write};
 use std::thread;
 
 fn main() {
-    let tcp_stream = TcpStream::connect("[::]:1422").unwrap();
+    let tcp_stream = TcpStream::connect("play.sy.sa:1422").unwrap();
     let tcp_port = tcp_stream.local_addr().unwrap().port();
-    let udp_socket: UdpSocket = UdpSocket::bind("[::]:0").unwrap();
+    let udp_socket: UdpSocket = UdpSocket::bind("[::]:51820").unwrap();
     let udp_port = udp_socket.local_addr().unwrap().port();
     println!("Listening on port {} for TCP and {} for UDP", tcp_port, udp_port);
     
@@ -33,7 +33,7 @@ fn main() {
             let tcp_size = _tcp_stream.read(&mut tcp_buf).unwrap();
             if tcp_size > 0 {
                 println!("Got {} bytes from TCP", tcp_size);
-                udp_socket.send_to(&tcp_buf[0..tcp_size], "[::]:51820").unwrap();
+                udp_socket.send_to(&tcp_buf[0..tcp_size], "[::1]:51821").unwrap();
             }
         }
     });
