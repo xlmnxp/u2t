@@ -22,10 +22,10 @@ fn main() {
 
     thread::spawn(move || {
         loop {
-            let udp_size = _udp_socket.recv(&mut udp_buf).unwrap();
+            let udp_size = _udp_socket.recv(&mut udp_buf).expect("couldn't read from udp socket");
             if udp_size > 0 {
                 println!("Got {} bytes from UDP: {:?}", udp_size, &udp_buf[0..udp_size]);
-                _tcp_stream.write(&udp_buf[0..udp_size]).unwrap();
+                _tcp_stream.write(&udp_buf[0..udp_size]).expect("couldn't write to tcp stream");
             }
         }
     });
@@ -34,10 +34,10 @@ fn main() {
     let mut _tcp_stream: std::net::TcpStream = tcp_stream.try_clone().unwrap();
     thread::spawn(move || {
         loop {
-            let tcp_size = _tcp_stream.read(&mut tcp_buf).unwrap();
+            let tcp_size = _tcp_stream.read(&mut tcp_buf).expect("couldn't read from tcp stream");
             if tcp_size > 0 {
                 println!("Got {} bytes from TCP: {:?}", tcp_size, &tcp_buf[0..tcp_size]);
-                udp_socket.send(&tcp_buf[0..tcp_size]).unwrap();
+                udp_socket.send(&tcp_buf[0..tcp_size]).expect("couldn't send udp message");
             }
         }
     });
