@@ -18,6 +18,8 @@ fn main() {
     let _udp_socket = udp_socket.try_clone().unwrap();
     let mut _tcp_stream = tcp_stream.try_clone().unwrap();
     
+    udp_socket.connect("[::1]:51820").unwrap();
+
     thread::spawn(move || {
         loop {
             let udp_size = _udp_socket.recv(&mut udp_buf).unwrap();
@@ -35,7 +37,7 @@ fn main() {
             let tcp_size = _tcp_stream.read(&mut tcp_buf).unwrap();
             if tcp_size > 0 {
                 println!("Got {} bytes from TCP", tcp_size);
-                udp_socket.send_to(&tcp_buf[0..tcp_size], "[::]:51820").unwrap();
+                udp_socket.send(&tcp_buf[0..tcp_size]).unwrap();
             }
         }
     });
