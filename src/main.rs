@@ -2,7 +2,7 @@ use std::net::{TcpListener, UdpSocket};
 use std::io::{Read, Write};
 
 fn main() {
-    let tcp_listener = TcpListener::bind("[::]:0").unwrap();
+    let tcp_listener = TcpListener::bind("[::]:1422").unwrap();
     let tcp_port = tcp_listener.local_addr().unwrap().port();
     let udp_socket = UdpSocket::bind("[::]:0").unwrap();
     let udp_port = udp_socket.local_addr().unwrap().port();
@@ -10,6 +10,9 @@ fn main() {
     
     let mut tcp_stream = tcp_listener.accept().unwrap().0;
     let mut udp_buf = [0; 50];
+
+    println!("Got a connection!");
+    
     loop {
         let mut tcp_buf = [0; 50];
         let tcp_size = tcp_stream.read(&mut tcp_buf).unwrap();
