@@ -34,7 +34,7 @@ fn main() {
             let tcp_size = _tcp_stream.read(&mut tcp_buf).unwrap();
             if tcp_size > 0 {
                 println!("Got {} bytes from TCP", tcp_size);
-                udp_socket.send_to(&tcp_buf[0..tcp_size], "[::]:51821").unwrap();
+                udp_socket.send_to(&tcp_buf[0..tcp_size], "[::]:51820").unwrap();
             }
         }
     });
