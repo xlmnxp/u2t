@@ -29,10 +29,6 @@ fn main() {
                 .recv(&mut udp_buf)
                 .expect("couldn't read from udp socket");
             if udp_size > 0 {
-                // remove the first 4 bytes from the udp_buf
-                let udp_buf = &udp_buf[4..udp_size];
-                let udp_size = udp_size - 4;
-
                 println!(
                     "Got {} bytes from UDP: {:?}",
                     udp_size,
@@ -53,10 +49,6 @@ fn main() {
                 .read(&mut tcp_buf)
                 .expect("couldn't read from tcp stream");
             if tcp_size > 0 {
-                // remove the first 4 bytes from the tcp_buf
-                let tcp_buf = &tcp_buf[4..tcp_size];
-                let tcp_size = tcp_size - 4;
-
                 println!(
                     "Got {} bytes from TCP: {:?}",
                     tcp_size,
