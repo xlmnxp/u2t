@@ -24,7 +24,7 @@ fn main() {
         loop {
             let udp_size = _udp_socket.recv(&mut udp_buf).unwrap();
             if udp_size > 0 {
-                println!("Got {} bytes from UDP", udp_size);
+                println!("Got {} bytes from UDP: {:?}", udp_size, &udp_buf[0..udp_size]);
                 _tcp_stream.write(&udp_buf[0..udp_size]).unwrap();
             }
         }
@@ -36,7 +36,7 @@ fn main() {
         loop {
             let tcp_size = _tcp_stream.read(&mut tcp_buf).unwrap();
             if tcp_size > 0 {
-                println!("Got {} bytes from TCP", tcp_size);
+                println!("Got {} bytes from TCP: {:?}", tcp_size, &tcp_buf[0..tcp_size]);
                 udp_socket.send(&tcp_buf[0..tcp_size]).unwrap();
             }
         }
