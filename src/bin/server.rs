@@ -17,10 +17,12 @@ fn main() {
         let mut tcp_buf = [0; 50];
         let tcp_size = tcp_stream.read(&mut tcp_buf).unwrap();
         if tcp_size > 0 {
+            println!("Got {} bytes from TCP", tcp_size);
             udp_socket.send_to(&tcp_buf[0..tcp_size], "[::]:51820").unwrap();
         }
         let udp_size = udp_socket.recv(&mut udp_buf).unwrap();
         if udp_size > 0 {
+            println!("Got {} bytes from UDP", udp_size);
             tcp_stream.write(&udp_buf[0..udp_size]).unwrap();
         }
     }
